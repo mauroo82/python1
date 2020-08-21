@@ -5,11 +5,11 @@ from time import sleep
 from os import system, name
 
 minuti = 2 # tempo di aggiornamento
-#58f3d6d388msh17839452635e3bcp114681jsn2d383f4a6859
+#xxxxxxxxxxxxxxxxxxxxxx
 
 headers = {
     'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com",
-    'x-rapidapi-key': "7584a90205msh7517ee1b6eb0bd8p15e282jsnba3f26a7582a"
+    'x-rapidapi-key': "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     }
 def clear():
     # for windows
