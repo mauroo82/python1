@@ -6,11 +6,12 @@ from os import system, name
 #from prettytable import PrettyTable
 
 minuti = 60 # tempo di aggiornamento
-#xxxxxxxxxxxxxxxxxxxx
+#58f3d6d388msh17839452635e3bcp114681jsn2d383f4a6859
 
 MSFTMIval = float(184.5575)
 ENIMIval  = float(9.0548)
 ISPMIval  = float(1.6565)
+CCC3DEval = float(41.6563)
 
 IBTMSWval = float(194.18)
 TNOWMIval = float(364.32)
@@ -18,11 +19,9 @@ CMODMIval = float(12.428)
 VWRLMIval = float(79.55)
 IBGLMIval = float(279.49)
 
-
-
 headers = {
     'x-rapidapi-host': "yahoo-finance-free.p.rapidapi.com",
-    'x-rapidapi-key': "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    'x-rapidapi-key': "7584a90205msh7517ee1b6eb0bd8p15e282jsnba3f26a7582a"
     }
 def clear():
     # for windows
@@ -66,6 +65,21 @@ def funz_ENIMI():
 def funz_ISPMI():
     url = "https://yahoo-finance-free.p.rapidapi.com/v6/finance/quote"
     querystring = {"region":"IT","lang":"it","symbols":"ISP.MI"}
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    # print(response.json)
+    respjson = response.text
+    respdict = json.loads(respjson)
+    #print(respdict)
+    check =  "regularMarketPrice" in respdict
+    if(check == "False"):
+        price = "nd"
+    else:
+        price = (respdict['quoteResponse']['result'][0]['regularMarketPrice'])
+    return price
+
+def funz_CCC3DE():
+    url = "https://yahoo-finance-free.p.rapidapi.com/v6/finance/quote"
+    querystring = {"region":"IT","lang":"it","symbols":"CCC3.DE"}
     response = requests.request("GET", url, headers=headers, params=querystring)
     # print(response.json)
     respjson = response.text
@@ -138,10 +152,9 @@ def funz_VWRLMI():
         price = (respdict['quoteResponse']['result'][0]['regularMarketPrice'])
     return price
 
-
 def funz_IBGLMI():
     url = "https://yahoo-finance-free.p.rapidapi.com/v6/finance/quote"
-    querystring = {"region":"IT","lang":"it","symbols":"IBGL.MI"}
+    querystring = {"region":"IT","lang":"it","symbols":"IBGL.MI1"}
     response = requests.request("GET", url, headers=headers, params=querystring)
     # print(response.json)
     respjson = response.text
@@ -169,7 +182,6 @@ class colors:
     GREEN = '\033[32m'
     YELLOW = '\033[33m'
 
-
 def numColor(value):
     color_positive = '\033[32m' # green
     color_negative = '\033[31m' # red
@@ -187,6 +199,7 @@ def main():
             price1z =  Perc(funz_MSFTMI(), MSFTMIval)
             price2z =  Perc(funz_ENIMI(), ENIMIval)
             price3z =  Perc(funz_ISPMI(), ISPMIval)
+            price9z =  Perc(funz_CCC3DE(), CCC3DEval)
 
             price4z =  Perc(funz_IBTMSW(), IBTMSWval)
             price5z =  Perc(funz_TNOWMI(), TNOWMIval)
@@ -194,14 +207,12 @@ def main():
             price7z =  Perc(funz_VWRLMI(), VWRLMIval)
             price8z =  Perc(funz_IBGLMI(), IBGLMIval)
 
-
-
-
             #price6 = funz_VGWLF()
             print(colors.YELLOW + '---------------------------------FINECO--------------------------------------', colors.ENDC)
             print('{:<50}{:<15}{:>20}'.format('MICROSOFT','MSFT.MI', numColor(price1z),''))
             print('{:<50}{:<15}{:>20}'.format('ENI','ENI.MI',numColor(price2z),''))
             print('{:<50}{:<15}{:>20}'.format('INTESA SAN PAOLO','ISP.MI',numColor(price3z),''))
+            print('{:<50}{:<15}{:>20}'.format('COCA COLA','CCC3.FRA',numColor(price9z),''))
 
             print(colors.YELLOW + '-----------------------------------------------------------------------------', colors.ENDC)
             print('')
@@ -217,4 +228,3 @@ def main():
             clear()
 if __name__ == "__main__":
     main()
-
