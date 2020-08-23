@@ -6,7 +6,7 @@ from os import system, name
 #from prettytable import PrettyTable
 
 minuti = 60 # tempo di aggiornamento
-#58f3d6d388msh17839452635e3bcp114681jsn2d383f4a6859
+#
 
 MSFTMIval = float(184.5575)
 ENIMIval  = float(9.0548)
@@ -21,7 +21,7 @@ IBGLMIval = float(279.49)
 
 headers = {
     'x-rapidapi-host': "yahoo-finance-free.p.rapidapi.com",
-    'x-rapidapi-key': "7584a90205msh7517ee1b6eb0bd8p15e282jsnba3f26a7582a"
+    'x-rapidapi-key': "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     }
 def clear():
     # for windows
