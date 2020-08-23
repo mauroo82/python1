@@ -6,7 +6,7 @@ from os import system, name
 #from prettytable import PrettyTable
 
 minuti = 60 # tempo di aggiornamento
-#58f3d6d388msh17839452635e3bcp114681jsn2d383f4a6859
+#
 
 MSFTMIval = float(184.5575)
 ENIMIval  = float(9.0548)
@@ -21,10 +21,10 @@ IBGLMIval = float(279.49)
 
 headers = {
     'x-rapidapi-host': "yahoo-finance-free.p.rapidapi.com",
-#mauro.arduini    'x-rapidapi-key': "7584a90205msh7517ee1b6eb0bd8p15e282jsnba3f26a7582a"
+#mauro.arduini    'x-rapidapi-key': "xxxxxxxxxxxxxxxxx"
 #chiara
-    'x-rapidapi-key': "62acdf5391msh8cb0b3b15b22875p1d834ejsna5590991d308"
-#mauroo    'x-rapidapi-key': "58f3d6d388msh17839452635e3bcp114681jsn2d383f4a6859"
+    'x-rapidapi-key': "xxxxxxxxxxxxxxxxxxxxx"
+#mauroo    'x-rapidapi-key': "xxxxxxxxxxxxxxxxxxxxxxxx"
     }
 def clear():
     # for windows
