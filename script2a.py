@@ -6,25 +6,41 @@ from os import system, name
 #from prettytable import PrettyTable
 
 minuti = 60 # tempo di aggiornamento
-#
+#58f3d6d388msh17839452635e3bcp114681jsn2d383f4a6859
 
 MSFTMIval = float(184.5575)
+MSFTMIqt  = float(4)
+
 ENIMIval  = float(9.0548)
+ENIMIqt  = float(165)
+
 ISPMIval  = float(1.6565)
+ISPMIqt  = float(800)
+
 CCC3DEval = float(41.6563)
+CCC3DEqt  = float(38)
 
 IBTMSWval = float(194.18)
+IBTMSWqt  = float(5)
+
 TNOWMIval = float(364.32)
+TNOWMIqt  = float(3)
+
 CMODMIval = float(12.428)
+CMODMIqt  = float(120)
+
 VWRLMIval = float(79.55)
+VWRLMIqt  = float(37)
+
 IBGLMIval = float(279.49)
+IBGLMIqt  = float(12)
 
 headers = {
     'x-rapidapi-host': "yahoo-finance-free.p.rapidapi.com",
-#mauro.arduini    'x-rapidapi-key': "xxxxxxxxxxxxxxxxx"
+#mauro.arduini    'x-rapidapi-key': "7584a90205msh7517ee1b6eb0bd8p15e282jsnba3f26a7582a"
 #chiara
-    'x-rapidapi-key': "xxxxxxxxxxxxxxxxxxxxx"
-#mauroo    'x-rapidapi-key': "xxxxxxxxxxxxxxxxxxxxxxxx"
+    'x-rapidapi-key': "62acdf5391msh8cb0b3b15b22875p1d834ejsna5590991d308"
+#mauroo    'x-rapidapi-key': "58f3d6d388msh17839452635e3bcp114681jsn2d383f4a6859"
     }
 def clear():
     # for windows
@@ -108,21 +124,34 @@ class colors:
     GREEN = '\033[32m'
     YELLOW = '\033[33m'
 
-def numColor(value):
+def numColor0(value0):
     color_positive = '\033[32m' # green
     color_negative = '\033[31m' # red
     color_end = '\033[m'
-    if value == 'nd':
+    if value0 == 'nd':
         return '{} nd {}'.format(color_positive,color_end)
-    elif value < 0:
-        return '{}{}%{}'.format(color_negative,value,color_end)
+    elif value0 < 0:
+        return '{}{}%{}'.format(color_negative,value0,color_end)
     else:
-        return '{}{}%{}'.format(color_positive,value,color_end)
+        return '{}{}%{}'.format(color_positive,value0,color_end)
+
+def numColor1(value1):
+    color_positive = '\033[32m' # green
+    color_negative = '\033[31m' # red
+    color_end = '\033[m'
+    value1a = round(value1, 1)
+    if value1 == 'nd':
+        return '{} nd {}'.format(color_positive,color_end)
+    elif value1 < 0:
+        return '{}{}E{}'.format(color_negative,value1a,color_end)
+    else:
+        return '{}{}E{}'.format(color_positive,value1a,color_end)
 
 def main():
     while True:
             now = datetime.datetime.now()
-            print (now.strftime("%d-%m-%Y %H:%M:%S"))
+            print('{:<10}{:<20}'.format('UPDATE: ',now.strftime("%d-%m-%Y %H:%M:%S")))
+            #print (now.strftime("%d-%m-%Y %H:%M:%S"))
 
             stock = funz_stockquery()
             price0z =  Perc(stock[0], MSFTMIval)
@@ -136,31 +165,49 @@ def main():
             price7z =  Perc(stock[7], VWRLMIval)
             price8z =  Perc(stock[8], IBGLMIval)
 
-            #price6 = funz_VGWLF()
-            print(colors.YELLOW + '---------------------------------FINECO--------------------------------------', colors.ENDC)
-            print('{:<50}{:<15}{:>20}'.format('MICROSOFT','MSFT.MI', numColor(price0z),''))
-            print('{:<50}{:<15}{:>20}'.format('ENI','ENI.MI',numColor(price1z),''))
-            print('{:<50}{:<15}{:>20}'.format('INTESA SAN PAOLO','ISP.MI',numColor(price2z),''))
-            print('{:<50}{:<15}{:>20}'.format('COCA COLA','CCC3.FRA',numColor(price3z),''))
+            price0q =  (stock[0] - MSFTMIval) * MSFTMIqt
+            price1q =  (stock[1] - ENIMIval) * ENIMIqt
+            price2q =  (stock[2] - ISPMIval) * ISPMIqt
+            price3q =  (stock[3] - CCC3DEval) * CCC3DEqt
+            price4q =  (stock[4] - IBTMSWval) * IBTMSWqt
+            price5q =  (stock[5] - TNOWMIval) * TNOWMIqt
+            price6q =  (stock[6] - CMODMIval) * CMODMIqt
+            price7q =  (stock[7] - VWRLMIval) * VWRLMIqt
+            price8q =  (stock[8] - IBGLMIval) * IBGLMIqt
 
-            print(colors.YELLOW + '-----------------------------------------------------------------------------', colors.ENDC)
+
+            #price6 = funz_VGWLF()
+            print(colors.YELLOW + '---------------------------------FINECO-------------------------------------------------------------------------------', colors.ENDC)
+            print('{:<40}{:<17}{:<13}{:<15}{:<15}{:<10}{:>8}'.format('Name','Symbol','Var%','Var Eur','Value','Val.Acq','QT'))
+            print(colors.YELLOW + '-----------------------------------------------------------------------------------------------------------------------', colors.ENDC)
+            print('{:<40}{:<15}{:>15}{:>1}{:>20}{:>1}{:>15}{:>1}{:>15}{:>1}{:>10}'.format('MICROSOFT','MSFT.MI',                            numColor0(price0z),' ',numColor1(price0q),' ',round(MSFTMIval, 2),' ',stock[0],' ',MSFTMIqt))
+            print('{:<40}{:<15}{:>15}{:>1}{:>20}{:>1}{:>15}{:>1}{:>15}{:>1}{:>10}'.format('ENI','ENI.MI',                                   numColor0(price1z),' ',numColor1(price1q),' ',round(ENIMIval, 2), ' ',stock[1],' ',ENIMIqt))
+            print('{:<40}{:<15}{:>15}{:>1}{:>20}{:>1}{:>15}{:>1}{:>15}{:>1}{:>10}'.format('INTESA SAN PAOLO','ISP.MI',                      numColor0(price2z),' ',numColor1(price2q),' ',round(ISPMIval, 2), ' ',stock[2],' ',ISPMIqt))
+            print('{:<40}{:<15}{:>15}{:>1}{:>20}{:>1}{:>15}{:>1}{:>15}{:>1}{:>10}'.format('COCA COLA','CCC3.FRA',                           numColor0(price3z),' ',numColor1(price3q),' ',round(CCC3DEval, 2),' ',stock[3],' ',CCC3DEqt))
+            print(colors.YELLOW + '-----------------------------------------------------------------------------------------------------------------------', colors.ENDC)
+            #fineco_invest =  Perc((stock[0]+stock[1]+stock[2]+stock[3]),(MSFTMIval+ENIMIval+ISPMIval+CCC3DEval))
+            #fineco_tot  =    round(price0q + price1q + price2q + price3q, 1)
+            #print('{:<40}{:<15}{:>15}{:>1}{:>20}'.format('','',fineco_invest,'',fineco_tot))
+
             print('')
-            print(colors.YELLOW + '---------------------------------DIRECTA-------------------------------------', colors.ENDC)
-            print('{:<50}{:<15}{:>20}'.format('ETF US TB710 ISHARES','IBTM.MI',numColor(price4z),''))
-            print('{:<50}{:<15}{:>20}'.format('LYXOR ETF MSCI WORLD INFORMATION TECH','TNOW.MI',numColor(price5z),''))
-            print('{:<50}{:<15}{:>20}'.format('SOURCE BLOOMBERG COMMODITY UCI ','CMOD.MI',numColor(price6z),''))
-            print('{:<50}{:<15}{:>20}'.format('Vanguard FTSE All-World UCITS ETF ','VWRL.MI',numColor(price7z),''))
-            print('{:<50}{:<15}{:>20}'.format('ETF EUGOVBOND1530 IS','IBGL.MI',numColor(price8z),''))
-            print(colors.YELLOW + '-----------------------------------------------------------------------------', colors.ENDC)
+            print(colors.YELLOW + '---------------------------------DIRECTA-------------------------------------------------------------------------------', colors.ENDC)
+            print('{:<40}{:<17}{:<13}{:<15}{:<15}{:<10}{:>8}'.format('Name','Symbol','Var%','Var Eur','Value','Val.Acq','QT'))
+            print(colors.YELLOW + '-----------------------------------------------------------------------------------------------------------------------', colors.ENDC)
+            print('{:<40}{:<15}{:>15}{:>1}{:>20}{:>1}{:>15}{:>1}{:>15}{:>1}{:>10}'.format('ETF US TB710 ISHARES','IBTM.MI',                 numColor0(price4z),' ',numColor1(price4q),' ',IBTMSWval,' ',stock[4],' ',IBTMSWqt))
+            print('{:<40}{:<15}{:>15}{:>1}{:>20}{:>1}{:>15}{:>1}{:>15}{:>1}{:>10}'.format('LYXOR ETF MSCI WORLD INFORMATION TECH','TNOW.MI',numColor0(price5z),' ',numColor1(price5q),' ',TNOWMIval,' ',stock[5],' ',TNOWMIqt))
+            print('{:<40}{:<15}{:>15}{:>1}{:>20}{:>1}{:>15}{:>1}{:>15}{:>1}{:>10}'.format('SOURCE BLOOMBERG COMMODITY UCI ','CMOD.MI',      numColor0(price6z),' ',numColor1(price6q),' ',CMODMIval,' ',stock[6],' ',CMODMIqt))
+            print('{:<40}{:<15}{:>15}{:>1}{:>20}{:>1}{:>15}{:>1}{:>15}{:>1}{:>10}'.format('Vanguard FTSE All-World UCITS ETF ','VWRL.MI',   numColor0(price7z),' ',numColor1(price7q),' ',VWRLMIval,' ',stock[7],' ',VWRLMIqt))
+            print('{:<40}{:<15}{:>15}{:>1}{:>20}{:>1}{:>15}{:>1}{:>15}{:>1}{:>10}'.format('ETF EUGOVBOND1530 IS','IBGL.MI',                 numColor0(price8z),' ',numColor1(price8q),' ',IBGLMIval,' ',stock[8],' ',IBGLMIqt))
+            print(colors.YELLOW + '------------------------------------------------------------------------------------------------------------------------', colors.ENDC)
             print('')
-            print(colors.YELLOW + '---------------------------------COVID19-------------------------------------', colors.ENDC)
+            print(colors.YELLOW + '---------------------------------COVID19--------------------------------------------------------------------------------', colors.ENDC)
             daticovid = funz_COVID()
             print('{:<50}{:<15}{:>12}'.format('NUOVI CASI - Italia',daticovid[1],daticovid[0]))
-            print(colors.YELLOW + '-----------------------------------------------------------------------------', colors.ENDC)
+            print(colors.YELLOW + '------------------------------------------------------------------------------------------------------------------------', colors.ENDC)
             print('')
 
 
-            sleep(10 * minuti)
+            sleep(20 * minuti)
             clear()
 if __name__ == "__main__":
     main()
