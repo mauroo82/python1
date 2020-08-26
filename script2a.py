@@ -6,7 +6,7 @@ from os import system, name
 #from prettytable import PrettyTable
 
 minuti = 60 # tempo di aggiornamento
-#
+#58f3d6d388msh17839452635e3bcp114681jsn2d383f4a6859
 
 MSFTMIval = float(184.5575)
 MSFTMIqt  = float(4)
@@ -37,10 +37,10 @@ IBGLMIqt  = float(12)
 
 headers = {
     'x-rapidapi-host': "yahoo-finance-free.p.rapidapi.com",
-#mauro.ar    'x-rapidapi-key': "xxxxxxxxxxxxxxxxx"
+#mauro.arduini    'x-rapidapi-key': "7584a90205msh7517ee1b6eb0bd8p15e282jsnba3f26a7582a"
 #chiara
-    'x-rapidapi-key': "xxxxxxxxxxxxxxxxxxxxxxxxxx"
-#mauroo    'x-rapidapi-key': "xxxxxxxxxxxxxxxxxxx"
+    'x-rapidapi-key': "62acdf5391msh8cb0b3b15b22875p1d834ejsna5590991d308"
+#mauroo    'x-rapidapi-key': "58f3d6d388msh17839452635e3bcp114681jsn2d383f4a6859"
     }
 def clear():
     # for windows
@@ -109,6 +109,24 @@ def funz_COVID():
             price = "nd"
     return (price,datecovid)
 
+def funz_EURDOL():
+    headers3 = {
+    'x-rapidapi-host': "currency-exchange.p.rapidapi.com",
+    'x-rapidapi-key': "62acdf5391msh8cb0b3b15b22875p1d834ejsna5590991d308"
+    }
+    url = "https://currency-exchange.p.rapidapi.com/exchange"
+    querystring = {"q":"1.0","from":"EUR","to":"USD"}
+    response = requests.request("GET", url, headers=headers3, params=querystring)
+    # print(response.json)
+    respjson = response.text
+    #respdict = json.loads(respjson)
+    #print(respdict)
+    check =  "1" in respjson
+    if(check == "False"):
+        respjson = "nd"
+
+    return (respjson)
+
 def Perc(valore_attuale, valore_acquisto):
     if(valore_attuale == "nd"):
         return "nd"
@@ -175,7 +193,10 @@ def main():
             price7q =  (stock[7] - VWRLMIval) * VWRLMIqt
             price8q =  (stock[8] - IBGLMIval) * IBGLMIqt
 
-
+            change_eurusd = float(funz_EURDOL())
+            daticovid = funz_COVID()
+            fineco_tot  =    round(price0q + price1q + price2q + price3q, 1)
+            directa_tot  =    round(price4q + price5q + price6q + price7q + price8q, 1)
             #price6 = funz_VGWLF()
             print(colors.YELLOW + '---------------------------------FINECO-------------------------------------------------------------------------------', colors.ENDC)
             print('{:<40}{:<17}{:<13}{:<15}{:<15}{:<10}{:>8}'.format('Name','Symbol','Var%','Var Eur','Value','Val.Acq','QT'))
@@ -185,9 +206,7 @@ def main():
             print('{:<40}{:<15}{:>15}{:>1}{:>20}{:>1}{:>15}{:>1}{:>15}{:>1}{:>10}'.format('INTESA SAN PAOLO','ISP.MI',                      numColor0(price2z),' ',numColor1(price2q),' ',round(ISPMIval, 2), ' ',stock[2],' ',ISPMIqt))
             print('{:<40}{:<15}{:>15}{:>1}{:>20}{:>1}{:>15}{:>1}{:>15}{:>1}{:>10}'.format('COCA COLA','CCC3.FRA',                           numColor0(price3z),' ',numColor1(price3q),' ',round(CCC3DEval, 2),' ',stock[3],' ',CCC3DEqt))
             print(colors.YELLOW + '-----------------------------------------------------------------------------------------------------------------------', colors.ENDC)
-            #fineco_invest =  Perc((stock[0]+stock[1]+stock[2]+stock[3]),(MSFTMIval+ENIMIval+ISPMIval+CCC3DEval))
-            #fineco_tot  =    round(price0q + price1q + price2q + price3q, 1)
-            #print('{:<40}{:<15}{:>15}{:>1}{:>20}'.format('','',fineco_invest,'',fineco_tot))
+            print('{:<40}{:<15}{:>14}{:>1}{:>20}'.format('TOT','','',numColor1(fineco_tot),''))
 
             print('')
             print(colors.YELLOW + '---------------------------------DIRECTA-------------------------------------------------------------------------------', colors.ENDC)
@@ -199,10 +218,12 @@ def main():
             print('{:<40}{:<15}{:>15}{:>1}{:>20}{:>1}{:>15}{:>1}{:>15}{:>1}{:>10}'.format('Vanguard FTSE All-World UCITS ETF ','VWRL.MI',   numColor0(price7z),' ',numColor1(price7q),' ',VWRLMIval,' ',stock[7],' ',VWRLMIqt))
             print('{:<40}{:<15}{:>15}{:>1}{:>20}{:>1}{:>15}{:>1}{:>15}{:>1}{:>10}'.format('ETF EUGOVBOND1530 IS','IBGL.MI',                 numColor0(price8z),' ',numColor1(price8q),' ',IBGLMIval,' ',stock[8],' ',IBGLMIqt))
             print(colors.YELLOW + '------------------------------------------------------------------------------------------------------------------------', colors.ENDC)
+            print('{:<40}{:<15}{:>14}{:>1}{:>20}'.format('TOT','','',numColor1(directa_tot),''))
             print('')
-            print(colors.YELLOW + '---------------------------------COVID19--------------------------------------------------------------------------------', colors.ENDC)
-            daticovid = funz_COVID()
-            print('{:<50}{:<15}{:>12}'.format('NUOVI CASI - Italia',daticovid[1],daticovid[0]))
+            print(colors.YELLOW + '---------------------------------OTHERS--------------------------------------------------------------------------------', colors.ENDC)
+            print('{:<40}{:<15}{:>15}{:>1}{:>20}{:>1}{:>13}{:>1}{:>1}{:>1}{:>10}'.format('EUR/USD','','','','','','','','','',round(change_eurusd, 3)))
+            print('')
+            print('{:<40}{:<15}{:>15}{:>1}{:>20}{:>1}{:>13}{:>1}{:>1}{:>1}{:>10}'.format('COVID19 Oggi - Italia',daticovid[1],'','','','','','','','',daticovid[0]))
             print(colors.YELLOW + '------------------------------------------------------------------------------------------------------------------------', colors.ENDC)
             print('')
 
